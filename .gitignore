@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Android
+.gradle
+build/
+local.properties
+*.apk
+*.aar
+*.jks
+*.keystore
+.cxx/
+.externalNativeBuild/
+
+# iOS
+ios/build/
+ios/Pods/
+*.xcworkspace
+*.xcscheme
+
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.iml
+
+# Java/Maven
+target/
+*.class
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.debug
