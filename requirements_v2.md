@@ -1,103 +1,406 @@
-# 🧾 Blendora – Refined Product Requirements Document (v2.0)
+# 🧾 Blendora – Execution Blueprint (Automated Model)
 
-## 📌 1. Overview
+---
+
+# 📌 1. Overview
 
 **Product Name:** Blendora
-**Type:** Hyperlocal Custom Grain Processing & Logistics Platform
-**Model:** Zero-Inventory (Godown-less)
-**Core Value Prop:** "Your choice of grain, processed your way, delivered fresh with 100% transparency."
+**Type:** Hyperlocal Custom Food Processing Platform
+**Architecture:** Fully Automated (Minimal Manual Dependency)
 
 ---
 
-## 🎯 2. The Business Model (Zero-Godown)
+# 🎯 2. Business Model
 
-Blendora operates as a pure marketplace and logistics orchestrator. 
-1. **Aggregator**: We aggregate local Wholesalers (Grain Sources) and Chakkis (Processors).
-2. **Logistics**: We manage two-stage delivery without holding stock.
-3. **Trust**: We solve the "purity gap" in flour processing through video evidence.
+Blendora operates on a **controlled supply chain model**:
 
----
+* Platform owns:
 
-## 👥 3. Advanced User Roles
+  * Inventory (grains)
+  * Processing (dedicated chakkis)
+  * Delivery orchestration
 
-### 3.1 Customer
-* **Mix Builder**: Customize ratios (e.g., 70% Sharbati Wheat, 20% Chana, 10% Bajra).
-* **Source Selection**: Choose where the grain comes from (Local Wholesaler vs. Premium Brand like Tata).
-* **Vendor Selection**: Choose a nearby Chakki based on ratings and proximity.
-* **Trust Dashboard**: View live/recorded video of their specific order being ground.
+* Vendors (chakkis) act as:
 
-### 3.2 Wholesaler / Brand Partner
-* **Inventory Management**: Update stock of raw grains.
-* **Order Preparation**: Receive "Pickup" requests and keep grains ready for Delivery Partner.
-* **Digital Invoicing**: Integrated billing with the platform.
-
-### 3.3 Chakki (The Processor)
-* **Grinding Queue**: Manage incoming raw grain batches.
-* **Verification**: Verify receipt of grains from Delivery Partner (Stage 1).
-* **Proof of Work**: Capture a 15-second mobile video of the grinding process + Pre/Post images.
-* **Payment**: Earn processing fees per kg.
-
-### 3.4 Delivery Partner (The Ground Force)
-* **Leg 1 (The Transfer)**: Source ➡️ Chakki.
-* **Leg 2 (The Delivery)**: Chakki ➡️ Customer.
-* **Earnings**: Per-leg commission based on distance and weight.
+  * Processing units only (not decision makers)
 
 ---
 
-## 🏗️ 4. Refined Operational Workflow
+# 🧠 3. Core Principle
 
-| Phase | Actor | Action | Status In App |
-| :--- | :--- | :--- | :--- |
-| **1. Ordering** | User | Configures mix, selects Wholesaler & Chakki. Pays. | `Order Placed` |
-| **2. Leg 1 Assigned** | Delivery 1 | Picks up raw grains from Wholesaler. | `Grains Picked Up` |
-| **3. Processing Entry** | Delivery 1 | Drops at Chakki. Chakki verifies with OTP. | `At Chakki` |
-| **4. Grinding** | Chakki | Records 15s video. Grinds grain. | `Grinding...` |
-| **5. Ready** | Chakki | Packs flour. Uploads video/images. | `Ready for Delivery` |
-| **6. Leg 2 Assigned** | Delivery 2 | Picks up fresh flour from Chakki. | `Out for Delivery` |
-| **7. Completion** | Delivery 2 | Delivers to User. User verifies with OTP. | `Delivered` |
+> Minimize human interaction → Maximize system automation
 
----
-
-## 🧩 5. Core Features & Technology Stack
-
-### 5.1 Trust Lock™ Engine (New)
-* **Video Metadata**: Every video must be geotagged and timestamped to ensure it belongs to the current order.
-* **Storage**: AWS S3 with CloudFront for fast playback.
-* **Compression**: Server-side compression to handle low-bandwidth chakki uploads.
-
-### 5.2 Micro-Logistics Scheduler
-* Manages the "Double-Leg" assignment. 
-* Prevents "Leg 2" from being assigned before "Leg 1" is completed.
-
-### 5.3 Tech Stack (Production Ready)
-* **Backend**: Spring Boot (Java 17/21) / PostgreSQL / Redis.
-* **Mobile**: React Native (Cross-platform for Android/iOS).
-* **Infrastructure**: AWS/GCP (Docker/Kubernetes ready).
-* **Payments**: Razorpay/Stripe (Escrow model).
+| Role     | Responsibility       |
+| -------- | -------------------- |
+| Customer | Order creation       |
+| Admin    | Monitoring & control |
+| Chakki   | Processing only      |
+| Rider    | Pickup & delivery    |
 
 ---
 
-## 📈 6. Monetization & Growth
+# 📱 4. Application Ecosystem
 
-1. **Transaction Margin**: Small markup on raw grain prices.
-2. **Processing Fee**: Service charge for managing the Chakki-User bridge.
-3. **Delivery Fee**: Tiered based on weight and distance.
-4. **Subscription**: "Monthly Fresh Atta" plans for recurring revenue.
+## 4.1 Customer App (React Native)
+
+* Create custom blends
+* Place orders
+* Track delivery
+* Manage subscriptions
 
 ---
 
-## 🚀 7. Roadmap to Production
+## 4.2 Admin Web Panel
 
-### Phase 1: MVP (Alpha) - Single Hub
-* Focus on 1 Area, 2 Wholesalers, 2 Chakkis.
-* Manual logistics assignment.
-* Basic video upload.
+* Inventory management
+* Chakki onboarding
+* Order monitoring
+* Delivery orchestration
+* Exception handling
 
-### Phase 2: Beta - Scaling Trust
-* Automated logistics (Leg 1 / Leg 2).
-* Subscription engine.
-* Real-time tracking with Maps.
+---
 
-### Phase 3: Launch - Ecosystem
-* Masala & Oil category expansion.
-* AI-based nutrition suggestions based on user mix.
+## 4.3 Chakki App (Lightweight)
+
+* View assigned orders
+* Start processing
+* Mark completion
+* Optional image upload
+
+👉 Must be:
+
+* Very simple UI
+* Max 3–4 actions only
+
+---
+
+## 4.4 Rider App
+
+* Accept delivery task
+* Navigate to pickup
+* Pickup confirmation
+* Deliver to customer
+* OTP-based delivery completion
+
+---
+
+# 🏗️ 5. Inventory Model
+
+## Centralized Control
+
+### Storage Types:
+
+* Central warehouse (bulk)
+* Chakki-level stock
+
+---
+
+## Flow:
+
+1. Bulk stock stored in warehouse
+2. Periodic transfer to chakkis
+3. Orders consume chakki stock
+
+---
+
+## Tables:
+
+* warehouse_stock
+* chakki_stock
+* stock_transfer
+
+---
+
+# 🔄 6. Order Flow (End-to-End Automation)
+
+---
+
+## Step 1: Order Creation
+
+* Customer selects mix
+* Defines quantity per ingredient
+* Total weight calculated
+
+---
+
+## Step 2: Validation
+
+* Check:
+
+  * Max allowed weight
+  * Stock availability at chakki
+
+---
+
+## Step 3: Chakki Assignment
+
+Auto-assigned based on:
+
+* Distance
+* Available stock
+* Capacity
+
+---
+
+## Step 4: Processing Job Creation
+
+Job includes:
+
+* Order ID
+* Mix composition
+* Total weight
+* Assigned chakki
+
+---
+
+## Step 5: Chakki Processing
+
+Chakki performs:
+
+* Accept (auto or manual)
+* Start grinding
+* Complete
+* Upload image (optional)
+
+---
+
+## Step 6: Delivery Assignment
+
+Triggered after completion
+
+---
+
+## Step 7: Delivery Execution
+
+* Rider picks up order
+* Delivers to customer
+* OTP confirmation
+
+---
+
+# 🚴 7. Delivery Logic (CRITICAL)
+
+## Weight-Based Assignment Rules
+
+### Case 1: Weight < 10kg
+
+* Assigned to:
+
+  * 🛵 Bike
+
+---
+
+### Case 2: Weight 10kg – 20kg
+
+* Assigned to:
+
+  * 🛵 EV Scooter
+
+---
+
+### Case 3: Weight > 20kg
+
+## Rule: Batch-Based Delivery (Max 20kg per trip)
+
+### Flow:
+
+1. Split order into batches of 20kg
+2. First delivery:
+
+   * EV Scooter (20kg max)
+3. Remaining weight:
+
+   * Automatically scheduled for next delivery
+   * Vehicle assigned based on batch weight
+
+---
+
+### Example:
+
+Order = 35kg
+
+Split:
+
+* Batch 1 → 20kg → EV Scooter
+* Batch 2 → 15kg → EV Scooter
+
+---
+
+# 📦 8. Packaging Strategy
+
+* Use multiple small bags:
+
+  * 5kg / 10kg packs
+* Avoid single heavy packaging
+
+---
+
+# ⚙️ 9. Automation Engine
+
+---
+
+## 9.1 Vendor (Chakki) Assignment
+
+* Based on:
+
+  * Distance
+  * Load
+  * Stock availability
+
+---
+
+## 9.2 Capacity Management
+
+* Each chakki:
+
+  * Max orders per hour
+  * Queue tracking
+
+---
+
+## 9.3 Delivery Assignment
+
+* Based on:
+
+  * Weight
+  * Distance
+  * Rider availability
+
+---
+
+## 9.4 Batch Split Engine
+
+* Automatically splits orders >20kg
+* Creates multiple delivery jobs
+
+---
+
+## 9.5 Auto Escalation
+
+* If no action:
+
+  * Reassign chakki
+  * Alert admin
+
+---
+
+# 📊 10. Data Model (Key Entities)
+
+## Orders
+
+* id
+* user_id
+* total_weight
+* status
+
+---
+
+## Order_Items
+
+* mix_id
+* composition details
+
+---
+
+## Delivery_Jobs
+
+* id
+* order_id
+* batch_weight
+* assigned_rider
+* vehicle_type
+
+---
+
+## Chakki_Stock
+
+* ingredient_id
+* available_qty
+
+---
+
+## Processing_Jobs
+
+* order_id
+* chakki_id
+* status
+
+---
+
+# 🔐 11. Authentication
+
+| Role     | Method               |
+| -------- | -------------------- |
+| Customer | OTP + JWT            |
+| Admin    | Secure login         |
+| Rider    | Login + token        |
+| Chakki   | Simple login / token |
+
+---
+
+# 📡 12. APIs (High-Level)
+
+## Order APIs
+
+* POST /order/create
+* GET /order/status
+
+---
+
+## Mix APIs
+
+* POST /mix/create
+* GET /mix/user
+
+---
+
+## Delivery APIs
+
+* POST /delivery/assign
+* PUT /delivery/status
+
+---
+
+## Chakki APIs
+
+* GET /chakki/orders
+* PUT /chakki/status
+
+---
+
+# ⚠️ 13. Constraints
+
+* Max batch size: 20kg
+* Delivery split mandatory above 20kg
+* Inventory must be available at chakki before order
+
+---
+
+# 🚀 14. MVP Scope
+
+## Include:
+
+* Atta category only
+* 1–2 chakkis per area
+* Automated assignment
+* Delivery batching
+
+---
+
+## Exclude:
+
+* Wholesaler app
+* Complex vendor dashboards
+
+---
+
+# 🎯 15. Success Criteria
+
+* Order completion time < 6 hours
+* Delivery success rate > 95%
+* Minimal manual intervention
+* Vendor compliance with minimal effort
+
+---
+
+# ✅ End of Document
